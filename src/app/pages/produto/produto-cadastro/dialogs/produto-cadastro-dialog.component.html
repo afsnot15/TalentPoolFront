@@ -1,0 +1,34 @@
+<app-action-bar>
+  <ng-container actions>
+    <app-save-action (click)="salvar()"></app-save-action>
+  </ng-container>
+
+  <ng-container title>Cadastro de Produto</ng-container>
+</app-action-bar>
+
+<form [formGroup]="formGroup" class="form-field">
+  <span class="label">Loja</span>
+  <mat-form-field>
+    <mat-select
+      [compareWith]="compareCategoryObjects"
+      formControlName="idLoja"
+      [disabled]="disableSelect"
+    >
+      @for (option of options; track option) {
+        <mat-option [value]="option">
+          {{ option | itemSelect }}
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <span class="label">Preço Venda (R$)</span>
+  <mat-form-field>
+    <input
+      type="number"
+      matInput
+      placeholder="Ex. 2,99"
+      formControlName="precoVenda"
+    />
+  </mat-form-field>
+</form>

@@ -1,0 +1,43 @@
+<form [formGroup]="form" class="form-field">
+  <span class="label">{{ label }}</span>
+
+  <ng-container>
+    @switch (field.type) {
+      @case (0) {
+        <mat-form-field>
+          <input
+            type="text"
+            matInput
+            [placeholder]="field.placeholder"
+            [formControlName]="field.formControlName"
+          />
+        </mat-form-field>
+      }
+
+      @case (1) {
+        <mat-form-field>
+          <mat-select [formControlName]="field.formControlName">
+            @for (option of field.options; track option) {
+              <mat-option [value]="option.value">
+                {{ option.label }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
+
+      @case (2) {
+        <mat-form-field>
+          <input
+            type="number"
+            matInput
+            [placeholder]="field.placeholder"
+            [formControlName]="field.formControlName"
+          />
+        </mat-form-field>
+      }
+    }
+  </ng-container>
+
+  <mat-error>{{ error }}</mat-error>
+</form>

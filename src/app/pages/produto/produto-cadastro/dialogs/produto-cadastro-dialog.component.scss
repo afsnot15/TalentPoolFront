@@ -1,0 +1,27 @@
+.form-field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 25rem;
+  height: 15rem;
+  padding: 1rem;
+
+  .field-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+mat-error {
+  font-size: 0.65rem;
+  opacity: 0.9;
+  position: absolute;
+  bottom: 0;
+  transform: translateY(0);
+  left: 0.5rem;
+}

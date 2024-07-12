@@ -1,0 +1,100 @@
+<app-page-layout title="Cadastro Produto">
+  <ng-container actions>
+    <app-save-action (click)="save()"></app-save-action>
+    <app-delete-action (click)="remove()"></app-delete-action>
+  </ng-container>
+
+  <ng-container title> Cadastro de Produto</ng-container>
+
+  <ng-container content>
+    <app-form-field-list
+      [form]="cadastroFormGroup"
+      [fields]="cadastroFields"
+    ></app-form-field-list>
+
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="loja">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <div class="add-table">
+            <mat-icon
+              class="icon"
+              aria-label="Adicionar"
+              fontIcon="add"
+              (click)="adicionarLoja()"
+            ></mat-icon>
+            <div class="text-container">
+              <span>Loja</span>
+            </div>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let row" class="table-center">
+          {{ row.loja }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="precoVenda">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="table-center"
+        >
+          Preço Venda (R$)
+        </th>
+        <td mat-cell *matCellDef="let row" class="table-center">
+          {{ row.precoVenda }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td mat-cell *matCellDef="let row" class="consulta-actions-container">
+          <div class="table-actions">
+            <mat-icon
+              class="icon"
+              aria-label="Editar"
+              fontIcon="edit"
+              (click)="editarProdutoLoja(row)"
+            ></mat-icon>
+
+            <mat-icon
+              class="icon"
+              style="--icon-color: var(--color-delete)"
+              aria-label="Excluir"
+              fontIcon="delete"
+              (click)="removerLoja(row.id)"
+            ></mat-icon>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        (dblclick)="editar(row.id)"
+        class="mat-row-hover"
+      ></tr>
+    </table>
+
+    <div class="image-upload-container" [class.image-selected]="imageSrc">
+      <input type="file" (change)="onImageSelected($event)" accept="image/*" />
+
+      @if (imageSrc) {
+        <img
+          #imagePreview
+          [src]="imageSrc"
+          style="max-width: 100%; max-height: 200px"
+        />
+
+        <div class="remove-image-btn" (click)="removeImage()">
+          <mat-icon
+            class="consulta-delete-icon"
+            aria-label="Editar"
+            fontIcon="delete"
+          ></mat-icon>
+        </div>
+      }
+    </div>
+  </ng-container>
+</app-page-layout>

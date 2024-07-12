@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  talenpoolfront:
+    container_name: talenpoolfront
+    build:
+      context: ./.docker
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - '.:/home/node/app'
+    entrypoint: sh ./.docker/entrypoint.sh
+    environment:
+      - NODE_ENV=development

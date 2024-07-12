@@ -1,0 +1,18 @@
+.page-card {
+  margin: 1rem;
+  padding: 1rem 1rem 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0.25rem 0.25rem 0.5rem #0000003e;
+
+  header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    .separator {
+      flex: auto;
+      height: 1px;
+      border-bottom: 0.1px solid var(--color-separator);
+    }
+  }
+}

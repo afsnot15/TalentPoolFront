@@ -1,0 +1,13 @@
+<app-action-bar>
+  <ng-container actions>
+    <ng-content select="[actions]"> </ng-content>
+  </ng-container>
+
+  <ng-container title>
+    <ng-content select="[title]"> </ng-content>
+  </ng-container>
+</app-action-bar>
+
+<div class="page-card">
+  <ng-content select="[content]"> </ng-content>
+</div>

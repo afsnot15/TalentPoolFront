@@ -1,0 +1,9 @@
+<div class="form-fields">
+  @for (field of fields; track field) {
+    <app-form-field
+      [field]="field"
+      [form]="form"
+      [class]="field.class"
+    ></app-form-field>
+  }
+</div>

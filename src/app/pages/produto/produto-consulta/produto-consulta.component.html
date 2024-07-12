@@ -1,0 +1,74 @@
+<app-page-layout title="Consulta Produto">
+  <ng-container actions>
+    <app-add-action></app-add-action>
+  </ng-container>
+
+  <ng-container title> Consulta de Produto</ng-container>
+
+  <ng-container content>
+    <app-form-field-list
+      [form]="filterFormGroup"
+      [fields]="filterFields"
+      (changeEmitter)="search()"
+    ></app-form-field-list>
+
+    <table
+      mat-table
+      matSort
+      [dataSource]="dataSource"
+      (matSortChange)="applySort($event)"
+    >
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
+        <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="descricao">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Descrição</th>
+        <td mat-cell *matCellDef="let row">{{ row.descricao }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="custo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Custo</th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.custo }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
+        <td mat-cell *matCellDef="let row" class="consulta-actions-container">
+          <div class="table-actions">
+            <mat-icon
+              class="icon"
+              aria-label="Editar"
+              fontIcon="edit"
+              (click)="editar(row.id)"
+            ></mat-icon>
+
+            <mat-icon
+              class="icon"
+              style="--icon-color: var(--color-delete)"
+              aria-label="Excluir"
+              fontIcon="delete"
+              (click)="excluir(row.id)"
+            ></mat-icon>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        (dblclick)="editar(row.id)"
+        class="mat-row-hover"
+      ></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      (page)="applyPage($event)"
+    ></mat-paginator>
+  </ng-container>
+</app-page-layout>
