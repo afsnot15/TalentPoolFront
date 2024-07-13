@@ -4,7 +4,12 @@ export interface IProdutoLoja {
   idProduto: number;
   idLoja: number;
   precoVenda: number;
-  loja: string;
+  loja: ILoja;
+}
+
+export interface IProdutoImageResponse {
+  type: string;
+  data: number[];
 }
 
 export interface ILoja {

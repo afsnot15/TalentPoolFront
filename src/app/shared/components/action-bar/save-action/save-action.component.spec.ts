@@ -8,10 +8,9 @@ describe('SaveActionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SaveActionComponent]
-    })
-    .compileComponents();
-    
+      imports: [SaveActionComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(SaveActionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

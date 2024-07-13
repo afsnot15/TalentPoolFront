@@ -17,7 +17,5 @@ export function controlErrorMessages({ errors }: AbstractControl): string {
   const firstError = Object.keys(errors).pop() as string;
   const cusromErrorsValues = customErrors(errors[firstError]);
 
-  console.log(cusromErrorsValues[firstError]);
-
   return cusromErrorsValues[firstError];
 }

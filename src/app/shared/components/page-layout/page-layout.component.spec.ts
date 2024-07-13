@@ -8,10 +8,9 @@ describe('PageLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PageLayoutComponent]
-    })
-    .compileComponents();
-    
+      imports: [PageLayoutComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(PageLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

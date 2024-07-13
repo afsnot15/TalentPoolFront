@@ -8,10 +8,9 @@ describe('ActionBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActionBarComponent]
-    })
-    .compileComponents();
-    
+      imports: [ActionBarComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ActionBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

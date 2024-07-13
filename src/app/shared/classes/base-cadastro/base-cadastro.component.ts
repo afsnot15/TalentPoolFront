@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { DialogComponent } from '../../components/dialog/dialog.component';
 import { ToastComponent } from '../../components/toast/toast/toast.component';
+import { EMensagem } from '../../enums/mensagens/mensagem.enum';
 import { EPathRoutes } from '../../enums/routes/routes.enum';
 import { ESnackbarType } from '../../enums/types/snackbar.enum';
 import {
@@ -96,9 +97,12 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     this.cadastroFormGroup.markAllAsTouched();
 
     if (this.cadastroFormGroup.invalid) {
+      this.openSnackBar({
+        message: EMensagem.CAMPOS_INCORRETOS,
+        type: ESnackbarType.error,
+      });
       return;
     }
-
     this.idEdit ? this.editar(addNew) : this.adicionar(addNew);
   }
 

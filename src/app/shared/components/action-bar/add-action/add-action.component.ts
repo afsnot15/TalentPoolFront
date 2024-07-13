@@ -16,9 +16,6 @@ export class AddActionComponent {
   ) {}
 
   add(): void {
-    const currentUrl = this._router.url;
-    console.log(currentUrl);
-
     this._router.navigate(['produto/cadastro'], { relativeTo: this._route });
   }
 }

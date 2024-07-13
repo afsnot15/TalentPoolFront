@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
@@ -20,7 +21,9 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { Subject, finalize, takeUntil } from 'rxjs';
 import { ActionBarComponent } from '../../../../shared/components/action-bar/action-bar.component';
+import { CloseActionComponent } from '../../../../shared/components/action-bar/close-action/close-action.component';
 import { SaveActionComponent } from '../../../../shared/components/action-bar/save-action/save-action.component';
 import { LayoutComponent } from '../../../../shared/components/layout/layout.component';
 import { ToastComponent } from '../../../../shared/components/toast/toast/toast.component';
@@ -32,7 +35,7 @@ import { ProdutoService } from '../../../produto.service';
 import { IProdutoLoja } from '../../produto.interface';
 import { IItemSelect } from './../../../../shared/interfaces/item-select.interface';
 
-export interface IDialogData {
+export interface IDialogFormData {
   idLoja: FormControl<IItemSelect | null>;
   precoVenda: FormControl<number | null>;
 }
@@ -52,23 +55,24 @@ export interface IDialogData {
     MatInputModule,
     ItemSelectPipe,
     FormsModule,
+    CloseActionComponent,
   ],
   templateUrl: './produto-cadastro-dialog.component.html',
   styleUrl: './produto-cadastro-dialog.component.scss',
 })
-export class DialogFormComponent implements OnInit {
-  disableSelect = false;
-
+export class ProdutoCadastroDialogComponent implements OnInit {
   options?: IItemSelect[];
   produtoLoja!: IProdutoLoja | IProdutoLoja[];
   selected?: IItemSelect;
+
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) data: IProdutoLoja[],
 
     private readonly _service: ProdutoService,
-    private dialogRef: MatDialogRef<DialogFormComponent>,
+    private dialogRef: MatDialogRef<ProdutoCadastroDialogComponent>,
   ) {
     this.produtoLoja = data;
 
@@ -82,22 +86,28 @@ export class DialogFormComponent implements OnInit {
   }
 
   async setFormValues(): Promise<void> {
-    this._service.findAllLoja().subscribe((response) => {
-      this.options = response.data;
+    this._service
+      .findAllLoja()
+      .pipe(
+        finalize(() => {
+          this.disableLoja();
+        }),
+      )
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((response) => {
+        this.options = response.data;
 
-      if (this.selected) {
-        this.formGroup.get('idLoja')?.setValue(this.selected);
+        this.formGroup.patchValue({ idLoja: this.selected });
 
         if (!Array.isArray(this.produtoLoja)) {
-          this.formGroup
-            .get('precoVenda')
-            ?.setValue(this.produtoLoja?.precoVenda);
+          this.formGroup.patchValue({
+            precoVenda: this.produtoLoja.precoVenda,
+          });
         }
-      }
-    });
+      });
   }
 
-  formGroup = new FormGroup<IDialogData>({
+  formGroup = new FormGroup<IDialogFormData>({
     idLoja: new FormControl(null, Validators.required),
     precoVenda: new FormControl(null, Validators.required),
   });
@@ -112,15 +122,35 @@ export class DialogFormComponent implements OnInit {
       return;
     }
 
-    const precoVenda = this.formGroup.get('precoVenda')?.value ?? 0;
-    const lojaSelecionada = this.formGroup.get('idLoja')?.value as IItemSelect;
-    const loja = lojaSelecionada.descricao;
+    const lojaCadastrada = this.isLojaCadastrada();
 
-    this.dialogRef.close({
-      idLoja: lojaSelecionada.id,
-      precoVenda: precoVenda,
-      loja: loja,
-    });
+    if (lojaCadastrada) {
+      this.exibirMensagem();
+      return;
+    }
+
+    const precoVenda = this.formGroup.get('precoVenda')?.value ?? 0;
+    const lojaSelecionada = this.formGroup.get('idLoja')?.value;
+
+    if (lojaSelecionada) {
+      const loja = lojaSelecionada.descricao;
+
+      this.dialogRef.close({
+        idLoja: lojaSelecionada.id,
+        precoVenda: precoVenda,
+        loja: loja,
+      });
+    }
+  }
+
+  private disableLoja(): void {
+    const control = this.formGroup.get('idLoja') as AbstractControl;
+
+    if (Array.isArray(this.produtoLoja)) {
+      control.enable();
+    } else {
+      this.produtoLoja.idLoja ? control.disable() : control.enable();
+    }
   }
 
   compareCategoryObjects(object1: any, object2: any) {
@@ -143,13 +173,34 @@ export class DialogFormComponent implements OnInit {
     );
   }
 
-  closeModal(): void {
-    this.dialogRef.close();
+  private isLojaCadastrada(): boolean {
+    const lojaSelecionada = this.formGroup.get('idLoja')?.value;
+
+    if (!lojaSelecionada) {
+      return false;
+    }
+
+    let lojaCadastrada = false;
+
+    if (Array.isArray(this.produtoLoja)) {
+      this.produtoLoja.forEach((element) => {
+        if (element.idLoja === lojaSelecionada.id) {
+          lojaCadastrada = true;
+        }
+      });
+    }
+
+    return lojaCadastrada;
   }
 
-  handleKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Escape') {
-      this.closeModal();
-    }
+  private exibirMensagem(): void {
+    this.openSnackBar({
+      message: EMensagem.LOJA_CADASTRADA,
+      type: ESnackbarType.error,
+    });
+  }
+
+  closeModal(): void {
+    this.dialogRef.close();
   }
 }

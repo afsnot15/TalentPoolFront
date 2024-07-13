@@ -3,17 +3,17 @@
     <app-save-action (click)="salvar()"></app-save-action>
   </ng-container>
 
+  <ng-container close>
+    <app-close-action (click)="closeModal()"></app-close-action>
+  </ng-container>
+
   <ng-container title>Cadastro de Produto</ng-container>
 </app-action-bar>
 
 <form [formGroup]="formGroup" class="form-field">
   <span class="label">Loja</span>
   <mat-form-field>
-    <mat-select
-      [compareWith]="compareCategoryObjects"
-      formControlName="idLoja"
-      [disabled]="disableSelect"
-    >
+    <mat-select [compareWith]="compareCategoryObjects" formControlName="idLoja">
       @for (option of options; track option) {
         <mat-option [value]="option">
           {{ option | itemSelect }}

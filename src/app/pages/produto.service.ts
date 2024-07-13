@@ -13,10 +13,10 @@ export class ProdutoService extends BaseResourceService<IProduto> {
     super(_injectorProduto, EApiPath.PRODUTO);
   }
 
-  findProdutoLoja(pId: number): Observable<IResponse<IProdutoLoja>> {
+  findProdutoLoja(pId: number): Observable<IResponse<IProdutoLoja[]>> {
     return this._http
       .get<
-        IResponse<IProdutoLoja>
+        IResponse<IProdutoLoja[]>
       >(`${EApiInfo.BASE_URL}${EApiPath.PRODUTO}/${EApiPath.PRODUTO_LOJA}/${pId}`)
       .pipe(take(1));
   }
@@ -27,10 +27,10 @@ export class ProdutoService extends BaseResourceService<IProduto> {
       .pipe(take(1));
   }
 
-  findImagem(pId: number): Observable<IResponse<Uint8Array>> {
+  findImagem(pId: number): Observable<IResponse<string>> {
     return this._http
       .get<
-        IResponse<Uint8Array>
+        IResponse<string>
       >(`${EApiInfo.BASE_URL}${EApiPath.PRODUTO}/${EApiPath.IMAGEM}/${pId}`)
       .pipe(take(1));
   }
