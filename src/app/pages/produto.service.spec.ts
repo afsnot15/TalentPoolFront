@@ -104,13 +104,13 @@ describe('ProdutoService', () => {
     it('deve realizar um get para em imagem', inject(
       [HttpTestingController, ProdutoService],
       (httpMock: HttpTestingController, produtoService: ProdutoService) => {
-        const bytea = new Uint8Array(10);
+        const bytea = 'teste';
 
         const mockResponse = { data: bytea, message: 'ok', count: 2 };
 
         produtoService
           .findImagem(1)
-          .subscribe((response: IResponse<Uint8Array>) => {
+          .subscribe((response: IResponse<string>) => {
             expect(response.data).toEqual(bytea);
           });
 

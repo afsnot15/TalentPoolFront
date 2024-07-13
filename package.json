@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test:coverage": "ng test --browsers=ChromeHeadlessNoSandbox --no-watch --code-coverage",
+    "test:cov": "ng test --browsers=ChromeHeadlessNoSandbox --no-watch --code-coverage",
+    "posttest": "istanbul-badges-readme --input coverage/talentpoolfront/coverage-summary.json --output README.md",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
   },
