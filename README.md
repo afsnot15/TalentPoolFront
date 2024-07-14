@@ -30,7 +30,7 @@ ou
 "attach" no container através do comando:
 
 ```bash
-docker exec -it front-talentpool
+docker exec -it front-talentpool bash
 ```
 
 e a seguir execute o comando:
