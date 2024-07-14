@@ -97,7 +97,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     this.cadastroFormGroup.markAllAsTouched();
 
     if (this.cadastroFormGroup.invalid) {
-      this.openSnackBar({
+      this.openToast({
         message: EMensagem.CAMPOS_INCORRETOS,
         type: ESnackbarType.error,
       });
@@ -110,7 +110,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     this._service
       .updateById(this.idEdit, this.formValues)
       .subscribe((response) => {
-        this.openSnackBar({
+        this.openToast({
           message: response.message,
           type: ESnackbarType.success,
         });
@@ -127,6 +127,12 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
   protected adicionar(addNew = false): void {
     this._service.create(this.formValues).subscribe((response) => {
       const id = response.data.id;
+
+      this.openToast({
+        message: response.message,
+        type: ESnackbarType.success,
+      });
+
       if (addNew) {
         this.cadastroFormGroup.reset();
       } else {
@@ -164,7 +170,7 @@ export abstract class BaseCadastroComponent<TData extends { id: number }>
     });
   }
 
-  protected openSnackBar(data: ISnackbarData, duration = 50000) {
+  protected openToast(data: ISnackbarData, duration = 50000) {
     const horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     const verticalPosition: MatSnackBarVerticalPosition = 'top';
 

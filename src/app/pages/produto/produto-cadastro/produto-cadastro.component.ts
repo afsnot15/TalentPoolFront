@@ -193,7 +193,7 @@ export class ProdutoCadastroComponent
         };
         reader.readAsDataURL(file);
       } else {
-        this.openSnackBar({
+        this.openToast({
           message: EMensagem.FORMATO_INVALIDO,
           type: ESnackbarType.error,
         });
