@@ -1,12 +1,11 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Renderer2 } from '@angular/core';
 import { FooterComponent } from '../footer/footer.component';
-import { MenuComponent } from '../menu/menu.component';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [MenuComponent, FooterComponent],
+  imports: [FooterComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })
