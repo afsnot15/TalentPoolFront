@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  talenpoolfront:
-    container_name: talenpoolfront
+  front-talentpool:
+    container_name: front-talentpool
     build:
       context: ./.docker
       dockerfile: Dockerfile

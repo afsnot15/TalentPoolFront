@@ -1,27 +1,40 @@
 # TalentPoolFront
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.2.
+Projeto Web de Cadastro de Produto, destinado ao Code Talent Pool da VR Software.
 
-## Development server
+## Iniciando Aplicação
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Navegue até o diretório raiz do projeto.
 
-## Code scaffolding
+Execute o seguinte comando:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+ docker compose up
+ ```
 
-## Build
+A aplicação será iniciada na porta 4200.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Acesse o endereço http://localhost:4200 em seu navegador para utilizar a aplicação.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Execução de testes
 
-## Running end-to-end tests
+Para rodar os testes unitários e gerar o relatório de cobertura, execute o seguinte comando:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+docker exec -it front-talentpool npm run test:cov
+```
 
-## Further help
+ou
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+"attach" no container através do comando:
+
+```bash
+docker exec -it front-talentpool
+```
+
+e a seguir execute o comando:
+
+```bash
+npm run test:cov
+```
